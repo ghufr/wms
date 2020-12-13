@@ -18,7 +18,7 @@
 							Available
 						</small>
 					</p>
-					<a href="#" class="stretched-link">
+					<a href="{{ route('warehouse.detail', $i) }}" class="stretched-link">
 					</a>
 					</div>
 				</div>

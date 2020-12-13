@@ -9,7 +9,7 @@
 	<nav class="navbar navbar-light shadow-sm d-flex justify-content-between bg-light position-fixed w-100">
 		<a href="{{ route('dash') }}" class="btn btn-light">Back</a>
 		<h5 class="mb-0 font-weight-bold">WMS</h5>
-		<a href="#"></a>
+		<a class="btn btn-light invisible" href="#">Back</a>
 	</nav>
 	<div class="container" style="padding-top: 128px; max-width: 520px">
 		<div class="card mb-5">
@@ -31,7 +31,7 @@
 			</div>
 		</div>
 		<div class="text-center">
-			<button class="btn btn-danger">Logout</button>
+			<a href="{{ route('auth.logout') }}" class="btn btn-danger">Logout</a>
 		</div>
 	</div>
 

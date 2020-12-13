@@ -26,6 +26,10 @@ Route::get('/warehouse', function () {
     return view('warehouse');
 })->name("warehouse");
 
+Route::get('/warehouse/{id}', function () {
+    return view('warehouse_detail');
+})->name("warehouse.detail");
+
 Route::get('/suppliers', function () {
     return view('suppliers');
 })->name("suppliers");

@@ -6,7 +6,7 @@
 @section('content')
 <div class="container" style="padding-top: 128px">
 	<table class="table table-bordered">
-		<thead>
+		<thead class="thead-light">
 			<tr>
 				<th>#</th>
 				<th>Name</th>
