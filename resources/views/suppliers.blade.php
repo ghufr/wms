@@ -5,6 +5,7 @@
 @endcomponent
 @section('content')
 <div class="container" style="padding-top: 128px">
+	{{-- Cantika --}}
 	<table class="table table-bordered">
 		<thead class="thead-light">
 			<tr>

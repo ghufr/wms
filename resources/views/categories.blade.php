@@ -5,6 +5,7 @@
 @endcomponent
 @section('content')
 <div class="container pb-5" style="padding-top: 128px">
+	{{-- Fildzah --}}
 	<table class="table table-bordered">
 		<thead class="thead-light">
 			<tr>

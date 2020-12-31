@@ -5,6 +5,7 @@
 @endcomponent
 @section('content')
 <div class="container" style="padding-top: 128px">
+	{{-- Dede --}}
 	<div class="row">
 		@for ($i = 0; $i < 12; $i++)
 		<div class="col col-md-4 mb-4">
@@ -18,7 +19,7 @@
 							Available
 						</small>
 					</p>
-					<a href="{{ route('warehouse.detail', $i) }}" class="stretched-link">
+					<a href="{{ route('warehouse', $i) }}" class="stretched-link">
 					</a>
 					</div>
 				</div>

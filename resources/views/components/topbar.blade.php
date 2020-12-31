@@ -13,7 +13,7 @@
 			<div class="dropdown">
 				<button class="btn btn-light" type="button" data-toggle="dropdown">
 					<span class="font-weight-bold mr-2">
-						Ghufron F
+						@yield('username', 'User')
 					</span>
 					<img class="img-fluid rounded-circle" width="32px" height="32px" src="https://via.placeholder.com/60" alt="Profile">
 					<svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-caret-down-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">

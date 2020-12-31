@@ -3,22 +3,49 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use App\Models\User;
 
 class AuthController extends Controller
 {
-    function login()
+    public function login(Request $request)
     {
-        // TODO: Implement login
-        return redirect(route('dash'));
+        $credentials = $request->only('email', 'password');
+
+        if (Auth::attempt($credentials)) {
+            $request->session()->regenerate();
+
+            return redirect(route('dash'));
+        }
+
+        return back()->withErrors([
+            'email' => 'The provided credentials do not match our records.',
+        ]);
     }
-    function register()
+    function register(Request $request)
     {
-        // TODO: Implement register
+        $credentials = $request->only('name', 'email');
+        $credentials['password'] = Hash::make($request->password);
+
+        if (User::where('email', $credentials['email'])->exists()) {
+
+            return back()->withErrors([
+                'email' => 'Email already taken, please login...'
+            ]);
+        }
+
+        User::create($credentials);
+
+
         return redirect(route('login'));
     }
-    function logout()
+    function logout(Request $req)
     {
-        // TODO: Implement logout
+        Auth::logout();
+        $req->session()->invalidate();
+        $req->session()->regenerateToken();
+
         return redirect(route('home'));
     }
 }

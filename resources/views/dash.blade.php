@@ -5,6 +5,7 @@
 @endcomponent
 @section('content')
 <div class="container pb-5" style="padding-top: 128px">
+	{{-- Ghufron --}}
 	<div class="row">
 		<div class="col col-8">
 			<div class="row mb-3">

@@ -6,6 +6,7 @@
 @section('content')
 
 <div>
+	{{-- Hisyam --}}
 	<nav class="navbar navbar-light shadow-sm d-flex justify-content-between bg-light position-fixed w-100">
 		<a href="{{ route('dash') }}" class="btn btn-light">Back</a>
 		<h5 class="mb-0 font-weight-bold">WMS</h5>
@@ -16,11 +17,12 @@
 			<div class="card-body">
 				<div class="mb-3 d-flex  align-items-center justify-content-between">
 					<h5>Profile</h5>
-					<button class="btn btn-sm btn-outline-secondary">Edit</button>
+					{{-- <button class="btn btn-sm btn-outline-secondary">Edit</button> --}}
 
 				</div>
-				<p class="mb-0 font-weight-bold">John Doe</p>
+				<p class="mb-0 font-weight-bold">John Doe <span class="badge badge-secondary">Staff</span></p>
 				<p>john@acme.id</p>
+
 				<p class="text-secondary">
 					<small>
 						Registered at 20 Aug 2020
