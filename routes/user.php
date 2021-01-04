@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 
-Route::middleware(['auth'])->group(function () {
-	// Hisyam
-});
+// Hisyam
+Route::get('/profile', function () {
+	return view('profile');
+})->name("profile");

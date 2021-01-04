@@ -2,8 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 
-// Dede
+// Hisyam
 
 Route::get('/', function () {
-	return view('warehouse');
-})->name("warehouse");
+	return view('products');
+})->name("products");

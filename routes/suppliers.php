@@ -2,8 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 
-// Dede
-
+// Cantika
 Route::get('/', function () {
-	return view('warehouse');
-})->name("warehouse");
+	return view('suppliers');
+})->name("suppliers");

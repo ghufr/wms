@@ -14,9 +14,14 @@ class CreateTransactionsTable extends Migration
     public function up()
     {
         Schema::create('transactions', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
             // Ghufron
+            $table->id();
+            $table->foreignId("product_id");
+            $table->foreignId("user_id");
+            $table->integer("qty");
+            $table->integer("price");
+            $table->integer("volume");
+            $table->$table->timestamps();
         });
     }
 

@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 
-Route::middleware(['auth'])->group(function () {
-	// Ghufron
-});
+// Ghufron
+Route::get('/', function () {
+	return view('dash');
+})->name("dash");

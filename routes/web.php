@@ -16,36 +16,14 @@ use Illuminate\Support\Facades\Route;
 
 // Authenticated Routes
 Route::middleware(['auth'])->group(function () {
-    Route::get('/dashboard', function () {
-        return view('dash');
-    })->name("dash");
-
-    Route::get('/warehouse', function () {
-        return view('warehouse');
-    })->name("warehouse");
-
-    Route::get('/suppliers', function () {
-        return view('suppliers');
-    })->name("suppliers");
-
-    Route::get('/products', function () {
-        return view('products');
-    })->name("products");
-
-    Route::get('/categories', function () {
-        return view('categories');
-    })->name("categories");
-
-    Route::get('/transactions', function () {
-        return view('transactions');
-    })->name("transactions");
-
-    Route::get('/profile', function () {
-        return view('profile');
-    })->name("profile");
+    Route::prefix('transactions')->group(__DIR__ . '/transaction.php');
+    Route::prefix('warehouse')->group(__DIR__ . '/warehouse.php');
+    Route::prefix('products')->group(__DIR__ . '/products.php');
+    Route::prefix('suppliers')->group(__DIR__ . '/suppliers.php');
+    Route::prefix('dashboard')->group(__DIR__ . '/dashboard.php');
+    Route::prefix('categories')->group(__DIR__ . '/categories.php');
+    Route::prefix('user')->group(__DIR__ . '/user.php');
 });
-
-// TODO: Manager Routes
 
 // Public routes
 Route::get('/', function () {
