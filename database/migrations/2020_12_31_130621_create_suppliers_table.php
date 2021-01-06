@@ -16,6 +16,10 @@ class CreateSuppliersTable extends Migration
         Schema::create('suppliers', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
+            $table->string("name");
+            $table->string("phone");
+            $table->string("address");
+
             // Cantika
         });
     }

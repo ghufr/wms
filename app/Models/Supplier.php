@@ -9,4 +9,9 @@ class Supplier extends Model
 {
     use HasFactory;
     // Cantika
+    protected $fillable = [
+        "name",
+        "phone",
+        "address"
+    ];
 }

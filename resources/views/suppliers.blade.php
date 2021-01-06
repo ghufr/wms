@@ -17,18 +17,18 @@
 			</tr>
 		</thead>
 		<tbody>
-			@for ($i = 0; $i < 10; $i++)
+			@foreach($suppliers as $supplier)
 			<tr>
-				<td>{{ $i + 1 }}</td>
-				<td>PT Senja Abadi</td>
-				<td>Jakarta</td>
-				<td>+62003232232</td>
+				<td>{{ 1 }}</td>
+				<td>{{ $supplier->name }}</td>
+				<td>{{ $supplier->phone }}</td>
+				<td>{{ $supplier->address }}</td>
 				<td>
 					<span class="badge badge-secondary">Kain</span>
 					<span class="badge badge-secondary">Jarum</span>
 				</td>
 			</tr>
-			@endfor
+			@endforeach
 		</tbody>
 	</table>
 </div>
