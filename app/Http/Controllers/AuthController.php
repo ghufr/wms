@@ -27,6 +27,7 @@ class AuthController extends Controller
     {
         $credentials = $request->only('name', 'email');
         $credentials['password'] = Hash::make($request->password);
+        $credentials['role'] = 'staff';
 
         if (User::where('email', $credentials['email'])->exists()) {
 
