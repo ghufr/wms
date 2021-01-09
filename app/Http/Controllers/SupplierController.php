@@ -23,4 +23,27 @@ class SupplierController extends Controller
         $suppliers = Supplier::all();
         return view('suppliers', ['suppliers' => $suppliers]);
     }
+    public function edit(Request $req, $id)
+    {
+        $supplier = Supplier::find(id);
+        return view("supplier_detail", ['supplier' => $supplier]);
+    }
+    public function delete(Request $req, $id) 
+    {
+        Supplier::destroy($id);
+        return redirect(route('suplliers'));
+    }
+    public function update(Request $req, $id) 
+    {
+        $supplier = Supplier::find($id);
+
+        if ($supplier) {
+            $supplier->name = $req->name;
+            $supplier->phone = $req->phone;
+            $supplier->address = $req->address;
+            $supplier->save();
+        }
+
+        return redirect(route('suppliers'));
+    }
 }
