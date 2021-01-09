@@ -24,4 +24,27 @@ class CategoryController extends Controller
         $categories = Category::all();
         return view('categories', ['categories' => $categories]);
     }
+
+    public function edit(Request $req, $id)
+    {
+        $category = Category::find($id);
+        return view("category_detail", ['category' => $category]);
+    }
+
+    public function delete(Request $req, $id)
+    {
+        Category::destroy($id);
+        return redirect(route('categories'));
+    }
+    public function update(Request $req, $id) 
+    {
+        $category = Category::find($id);
+
+        if ($category) {
+            $category->name = $req->name;
+            $category->description = $req->description;
+            $category->save();
+        }
+        return redirect(route('categories'));
+    }
 }

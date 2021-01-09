@@ -21,10 +21,11 @@
 				<td>{{ 1 }}</td>
 				<td>{{ $category->name }}</td>
 				<td>{{ $category->description }}</td>
-				<th>
-					<button class="btn btn-sm btn-outline-success">Edit</button>
-				</th>
+				<td>
+					<a href="{{ route('categories.edit', ['id' => $category->id]) }}" class="btn btn-primary">Edit</a>
+					<a href="{{ route('categories.delete', ['id' => $category->id]) }}" class="btn btn-danger">Delete</a>
 
+				</td>
 			</tr>
 			@endforeach
 		</tbody>
