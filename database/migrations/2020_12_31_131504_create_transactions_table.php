@@ -18,10 +18,14 @@ class CreateTransactionsTable extends Migration
             $table->id();
             $table->foreignId("product_id");
             $table->foreignId("user_id");
+            $table->foreignId("warehouse_id");
             $table->integer("qty");
             $table->integer("price");
             $table->integer("volume");
-            $table->$table->timestamps();
+            $table->integer("total");
+            // $table->string("");
+
+            $table->timestamps();
         });
     }
 
