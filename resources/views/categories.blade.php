@@ -16,17 +16,17 @@
 			</tr>
 		</thead>
 		<tbody>
-			@for ($i = 0; $i < 10; $i++)
+			@foreach($categories as $category)
 			<tr>
-				<td>{{ $i + 1 }}</td>
-				<td>Kain</td>
-				<td>Kain katun combed 24s</td>
+				<td>{{ 1 }}</td>
+				<td>{{ $category->name }}</td>
+				<td>{{ $category->description }}</td>
 				<th>
 					<button class="btn btn-sm btn-outline-success">Edit</button>
 				</th>
 
 			</tr>
-			@endfor
+			@endforeach
 		</tbody>
 	</table>
 </div>
