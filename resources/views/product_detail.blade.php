@@ -23,7 +23,7 @@
 							<label for="category">Category</label>
 							<select class="form-control" name="category" id="category" required value="{{ Route::is('products.edit') ? $product->category : '' }}">
 								@foreach($categories as $category)
-								<option value={{ $category->name }}>{{ $category->name }}</option>
+								<option value={{ $category->id }}>{{ $category->name }}</option>
 								@endforeach
 							</select>
 						</div>

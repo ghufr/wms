@@ -11,10 +11,13 @@ class ProductController extends Controller
     // Hisyam
     public function create(Request $request)
     {
+
+        $category = Category::find($request->category);
+
         Product::create([
             'sku' => "",
             'item_name' =>  $request->item_name,
-            'category' =>  $request->category,
+            'category' => $category->name,
             'desc' =>  $request->desc,
             'img'   =>  "",
             'volume' =>  $request->volume
@@ -53,10 +56,11 @@ class ProductController extends Controller
     public function update(Request $request, $id)
     {
         $product = Product::find($id);
+        $category = Category::find($request->category);
 
         if ($product) {
             $product->item_name =  $request->item_name;
-            $product->category =  $request->category;
+            $product->category =  $category->name;
             $product->desc =  $request->desc;
             $product->img   =  "";
             $product->volume =  $request->volume;
