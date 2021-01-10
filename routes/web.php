@@ -36,16 +36,16 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/', function () {
         return view('home');
     })->name("home");
-
-    Route::get('/login', function () {
-        return view('login');
-    })->name("login");
-
-    Route::get('/register', function () {
-        return view('register');
-    })->name("register");
-
-    Route::post('/auth/register', [AuthController::class, 'register'])->name('auth.register');
-    Route::post('/auth/login', [AuthController::class, 'login'])->name('auth.login');
-    Route::get('/auth/logout', [AuthController::class, 'logout'])->name('auth.logout');
 });
+
+Route::get('/login', function () {
+    return view('login');
+})->name("login");
+
+Route::get('/register', function () {
+    return view('register');
+})->name("register");
+
+Route::post('/auth/register', [AuthController::class, 'register'])->name('auth.register');
+Route::post('/auth/login', [AuthController::class, 'login'])->name('auth.login');
+Route::get('/auth/logout', [AuthController::class, 'logout'])->name('auth.logout');
