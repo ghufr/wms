@@ -11,6 +11,7 @@ use App\Models\Stock;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class TransactionController extends Controller
 {
@@ -39,31 +40,51 @@ class TransactionController extends Controller
             return back()->withErrors(['Warehouse tidak ditemukan']);
         }
 
-        
+        $in_type = $req->query('type');
         // Input Transaction
         $transaction = Transaction::create([
-            "product_id" => $product->id,
             "user_id" => $user->id,
             "warehouse_id" => $warehouse->id,
+            "warehouse_name" => $warehouse->name,
+            "warehouse_location" => $warehouse->location,
+
+            "supplier_id" => $supplier->id,
+            "supplier_name" => $supplier->name,
+            "supplier_address_city" => $supplier->address_city,
+
+            "product_id" => $product->id,
+            "product_name" => $product->item_name,
+            "product_volume" => $product->volume,
+            "product_category" => $product->category,
             "price" => $req->price,
             "qty" => $req->qty,
             "total" => $req->price * $req->qty,
             "volume" => $product->volume * $req->qty,
-            "type" => $req->query('type')
+            "type" => $in_type
         ]);
-        
+
         if (!isset($transaction)) {
             return back()->withErrors(['Gagal membuat transaksi']);
         }
-            
-            
+
         // Input Stock
         $stock = Stock::where('product_id', $product->id)->first();
-        if(null !== $stock){
-            $stock->qty += $req->qty;
-            $stock->price = (($stock->price + $req->price) / 2);
+        if ($req->query('type') == 'inbound') {
+            if (null !== $stock) {
+                $stock->qty += $req->qty;
+                $stock->price = (($stock->price + $req->price) / 2);
+                $stock->save();
+            } else {
+                Stock::create([
+                    "product_id" => $product->id,
+                    "category" => $product->category,
+                    "qty" => $req->qty,
+                    "price" => $req->price
+                ]);
+            }
+        } elseif ($stock and $in_type == 'outbound') {
+            $stock->qty -= $req->qty;
             $stock->save();
-            
         }else{
             Stock::create([
                 "warehouse_id" => $warehouse->id,
@@ -73,7 +94,6 @@ class TransactionController extends Controller
                 "price" => $req->price
             ]);
         }
-
         return redirect(route("transactions"));
     }
 
@@ -103,7 +123,15 @@ class TransactionController extends Controller
     {
         $products = Product::all();
         $suppliers = Supplier::all();
-        $warehouses = Warehouse::all();
+        $userId = Auth::user()->id;
+        $user = User::find($userId);
+
+        $warehouses = [];
+        if ($user->role == 'manager') {
+            $warehouses = Warehouse::all();
+        } else {
+            $warehouses = $user->warehouse()->get();
+        }
 
         $data = [
             'products' => $products,
