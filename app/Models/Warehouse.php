@@ -9,4 +9,15 @@ class Warehouse extends Model
 {
     use HasFactory;
     // Dede
+    
+    protected $fillable = [
+        "name",
+        "location",
+        "volume"
+    ];
+
+    public function user()
+    {
+        return $this->belongsToMany(User::class);
+    }
 }
