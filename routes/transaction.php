@@ -9,7 +9,9 @@ Route::get('/outbound', [TransactionController::class, "outbound"])->name("trans
 Route::get('/edit/{id}', [TransactionController::class, "edit"])->name('transactions.edit');
 
 // Create
-Route::post('/', [TransactionController::class, "create"])->name("transactions.create");
+Route::post('/create', [TransactionController::class, "create"])->name("transactions.create");
+Route::post('/sub', [TransactionController::class, "sub"])->name("transactions.sub");
+
 
 // Delete
 // Route::get('/delete/{id}', [TransactionController::class, "delete"])->name('transactions.delete');

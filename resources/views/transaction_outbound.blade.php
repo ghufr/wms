@@ -26,10 +26,10 @@
 					<div class="col">
 						<div class="form-group">
 							<label for="warehouse">Warehouse</label>
-							<select class="form-control" name="warehouse" id="warehouse" onchange="location = this.value;">
-								<option value="">Choose Warehouse...</option>
+							<select class="form-control" name="warehouse" id="warehouse" value="{{ '?choosen='. Request()->choosen }}" onchange="location = '{{ route('transactions.outbound') }}' + this.value;">
+								<option value="0">Choose Warehouse...</option>
 								@foreach ($warehouses as $warehouse)
-										<option value="{{ route('transactions.outbound').'?choosen='.$warehouse->id}}">{{ $warehouse->name }}</option>
+										<option value="{{ '?choosen='.$warehouse->id }}">{{ $warehouse->name }}</option>
 								@endforeach
 							</select>
 						</div>
@@ -42,6 +42,7 @@
 					<td>
 						<h3 class="font-weight-bold mb-2">Stock</h3>
 					</td>
+					@if(count($stocks))
 					<table class="table table-bordered text-center">
 						<thead class="thead-light">
 							<tr>
@@ -72,32 +73,40 @@
 						</thead>
 						<tbody>
 							@foreach ($stocks as $stock)
-							<tr>
-								<td>{{ $stock->id }}</td>
-								<td>{{ $stock->product_id }}</td>
-								<td>{{ $stock->category }}</td>
-								<td>{{ $stock->price }}</td>
-								<td></td>
-								<td>{{ $stock->qty }}</td>
-								<td>
-								
-								<div class="form-group">
-									<input class="form-control" type="number" name="qty" id="qty" min="0">
-								</div>
-								
+							<form action="{{ route('transactions.sub') }}" method="POST">
+								@csrf
+								<input type="hidden" name="id" value="{{$stock->id}}">
+								{{-- <input type="hidden" name="qty" value="{{$stock->qty}}"> --}}
+								<tr>
+									<td>{{ $stock->id }}</td>
+									<td>{{ $stock->product_id }}</td>
+									<td>{{ $stock->category }}</td>
+									<td>{{ $stock->price }}</td>
+									<td></td>
+									<td>{{ $stock->qty }}</td>
+									<td>
 
-								</td>
-								<td>
-								
-								<div>
-									<button type="submit" class="btn btn-primary">Checkout</button>
-								</div>
-								
-								</td>
-							</tr>
+									<div class="form-group">
+										<input class="form-control" type="number" name="qty" id="qty" min="0" max="{{ $stock->qty }}">
+									</div>
+
+
+									</td>
+									<td>
+
+									<div>
+										<button type="submit" class="btn btn-primary">Checkout</button>
+									</div>
+
+									</td>
+								</tr>
+							</form>
 							@endforeach
 						</tbody>
 					</table>
+					@else
+					<p>Tidak ada Stok</p>
+					@endif
 				</div>
 			</div>
 		</div>

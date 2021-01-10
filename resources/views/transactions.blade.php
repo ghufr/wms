@@ -8,16 +8,6 @@
 <div class="container-fluid" style="padding: 86px 52px">
 	{{-- Ghufron --}}
 
-	<div class="mb-3">
-		<form action="" style="max-width: 400px">
-
-			<select class="form-control" name="" id="">
-				<option value="0">All Warehouses</option>
-				<option value="1">Warehouse A</option>
-				<option value="2">Warehouse B</option>
-			</select>
-		</form>
-	</div>
 	<div class="row">
 		<div class="col-6">
 			<div class="card">

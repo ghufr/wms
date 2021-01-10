@@ -13,7 +13,7 @@
 				<div class="col col-6 col-md-4">
 					<div class="card">
 						<div class="card-body">
-							<h3 class="font-weight-bold">Rp 120M</h3>
+							<h3 class="font-weight-bold">$ {{ number_format ($value, 0) }}</h3>
 							<p class="mb-0">Inventory Value</p>
 						</div>
 					</div>

@@ -82,14 +82,16 @@
 							<a href="{{ route('warehouse.deleteStaff', ['id' => $warehouse->id, 'userId' => $st->id]) }}" class="float-right badge-pill badge-danger">X</a>
 						</li>
 						@endforeach
+						@if(count($users) > 0)
 						<li class="list-group-item text-right">
 							<button data-toggle="modal" data-target="#addStaffModal" class="btn btn-sm btn-primary">Add new Staff</button>
 						</li>
+						@endif
 					</ul>
 				</div>
 			</div>
 			<div class="mt-3">
-				<button class="btn-block btn-outline-success font-weight-bold" data-toggle="modal" data-target="#InsertModal">Edit Warehouse Detail</button>
+				<button class="btn btn-block btn-success font-weight-bold" data-toggle="modal" data-target="#InsertModal">Edit Warehouse Detail</button>
 			</div>
 		</div>
 	</div>
