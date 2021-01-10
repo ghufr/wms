@@ -31,9 +31,9 @@
 												<td>{{ $product->volume }}</td>
 												<td>
 														<a href="{{ route('products.edit', ['id' => $product->id]) }}"
-																class="btn btn-primary">Edit</a>
+																class="btn btn-sm btn-outline-primary">Edit</a>
 														<a href="{{ route('products.delete', ['id' => $product->id]) }}"
-																class="btn btn-danger">Delete</a>
+																class="btn btn-sm btn-outline-danger">Delete</a>
 												</td>
 										</tr>
 								@endforeach
