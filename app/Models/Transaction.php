@@ -15,6 +15,14 @@ class Transaction extends Model
         "price",
         "volume",
         "total",
+        "product_name",
+        "product_volume",
+        "product_category",
+        "supplier_name",
+        "supplier_address_city",
+        "warehouse_name",
+        "warehouse_location",
+        "supplier_id",
         "user_id",
         "product_id",
         "warehouse_id",
@@ -32,6 +40,10 @@ class Transaction extends Model
     }
 
     public function warehouse()
+    {
+        return $this->hasOne(Warehouse::class);
+    }
+    public function supplier()
     {
         return $this->hasOne(Warehouse::class);
     }

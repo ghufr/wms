@@ -37,7 +37,6 @@ class WarehouseController extends Controller
         );
         $arr["id"] = $id;
 
-        $request = new \Illuminate\Http\Request($arr);
         return $this->show($req, $id);
     }
 

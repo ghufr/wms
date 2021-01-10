@@ -28,8 +28,8 @@
 				<td>{{ $category->name }}</td>
 				<td>{{ $category->description }}</td>
 				<td>
-					<a href="{{ route('categories.edit', ['id' => $category->id]) }}" class="btn btn-primary">Edit</a>
-					<a href="{{ route('categories.delete', ['id' => $category->id]) }}" class="btn btn-danger">Delete</a>
+					<a href="{{ route('categories.edit', ['id' => $category->id]) }}" class="btn btn-sm btn-outline-primary">Edit</a>
+					<a href="{{ route('categories.delete', ['id' => $category->id]) }}" class="btn btn-sm btn-outline-danger">Delete</a>
 				</td>
 			</tr>
 			@endforeach

@@ -24,7 +24,7 @@
 				<div class="card-body">
 					<div class="mb-3 d-flex justify-content-between">
 						<h3>Inbound</h3>
-						<a href="{{ route('transactions.inbound') }}">
+						<a href="{{ route('transactions.inbound', ['type' => 'inbound']) }}">
 							<button class="btn btn-sm btn-primary">
 								In (+)
 							</button>
@@ -34,20 +34,20 @@
 					@if($inbound)
 					<table class="table">
 						<thead>
-
 								<td>
-									Created At
+									Product
 								</td>
-								<td>Product</td>
-								<td>Quantity</td>
+								<td>Qty</td>
+								<td>Warehouse</td>
 						</thead>
 						<tbody>
+							@foreach($inbound as $in)
 							<tr>
-								<td>2020/01/01</td>
-								<td>Kaos Putih Polos</td>
-								<td>100</td>
-
+								<td>{{ $in->product_name }}</td>
+								<td>{{ $in->qty }}</td>
+								<td>{{ $in->warehouse_name }}</td>
 							</tr>
+							@endforeach
 						</tbody>
 					</table>
 					@else
@@ -62,26 +62,27 @@
 				<div class="card-body">
 					<div class="mb-3 d-flex justify-content-between">
 						<h3>Outbound</h3>
-						<a href="{{ route('transactions.outbound') }}">
+						<a href="{{ route('transactions.outbound', ['type' => 'outbound']) }}">
 							<button class="btn btn-sm btn-danger">Out (-)</button>
 						</a>
 					</div>
 					@if($outbound)
 					<table class="table">
 						<thead>
-
-								<td>
-									Created At
-								</td>
-								<td>Product</td>
-								<td>Quantity</td>
+							<td>
+								Product
+							</td>
+							<td>Qty</td>
+							<td>Warehouse</td>
 						</thead>
 						<tbody>
+							@foreach($outbound as $out)
 							<tr>
-								<td>2020/01/02</td>
-								<td>Kaos Putih Polos</td>
-								<td>50</td>
+								<td>{{ $out->product_name }}</td>
+								<td>{{ $out->qty }}</td>
+								<td>{{ $out->warehouse_name }}</td>
 							</tr>
+							@endforeach
 						</tbody>
 					</table>
 					@else
