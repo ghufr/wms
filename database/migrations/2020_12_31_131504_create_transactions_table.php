@@ -23,7 +23,7 @@ class CreateTransactionsTable extends Migration
             $table->integer("price");
             $table->integer("volume");
             $table->integer("total");
-            // $table->string("");
+            $table->string("type");
 
             $table->timestamps();
         });

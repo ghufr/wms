@@ -7,16 +7,16 @@ use Illuminate\Http\Request;
 
 class SupplierController extends Controller
 {
-    // TODO: Control CRUD
     // Cantika
     public function create(Request $req)
     {
         Supplier::create([
             'name' => $req->name,
             'phone' => $req->phone,
-            'address' => $req->address
+            'address_city' => $req->address_city,
+            'address_street' => $req->address_street
         ]);
-        return view('suppliers');
+        return redirect(route('suppliers'));
     }
     public function list()
     {
@@ -25,22 +25,27 @@ class SupplierController extends Controller
     }
     public function edit(Request $req, $id)
     {
-        $supplier = Supplier::find(id);
+        $supplier = Supplier::find($id);
+        if (!$supplier) {
+            return redirect('suppliers')->withErrors(['Supplier tidak ditemukan']);
+        }
         return view("supplier_detail", ['supplier' => $supplier]);
     }
-    public function delete(Request $req, $id) 
+    public function delete(Request $req, $id)
     {
-        Supplier::destroy($id);
-        return redirect(route('suplliers'));
+        $is_destroyed = Supplier::destroy($id);
+        return redirect(route('suppliers'));
     }
-    public function update(Request $req, $id) 
+    public function update(Request $req, $id)
     {
         $supplier = Supplier::find($id);
 
         if ($supplier) {
             $supplier->name = $req->name;
             $supplier->phone = $req->phone;
-            $supplier->address = $req->address;
+            $supplier->address_street = $req->address_street;
+            $supplier->address_city = $req->address_city;
+
             $supplier->save();
         }
 

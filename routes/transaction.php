@@ -3,10 +3,15 @@
 use App\Http\Controllers\TransactionController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-	return view('transactions');
-})->name("transactions");
+Route::get('/', [TransactionController::class, "list"])->name("transactions");
 Route::get('/input', [TransactionController::class, "input"])->name("transactions.input");
-Route::get('/list', [TransactionController::class, "list"])->name("transactions.list");
-Route::get('/{id}', [TransactionController::class, "get"])->name('transactions.get');
+Route::get('/edit/{id}', [TransactionController::class, "edit"])->name('transactions.edit');
+
+// Create
 Route::post('/', [TransactionController::class, "create"])->name("transactions.create");
+
+// Delete
+// Route::get('/delete/{id}', [TransactionController::class, "delete"])->name('transactions.delete');
+
+// Update
+// Route::post('/update/{id}', [TransactionController::class, "update"])->name('transactions.update');

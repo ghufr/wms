@@ -13,7 +13,12 @@ class Transaction extends Model
     protected $fillable = [
         "qty",
         "price",
-        "volume"
+        "volume",
+        "total",
+        "user_id",
+        "product_id",
+        "warehouse_id",
+        "type"
     ];
 
     public function user()
@@ -24,5 +29,10 @@ class Transaction extends Model
     public function product()
     {
         return $this->hasOne(Product::class);
+    }
+
+    public function warehouse()
+    {
+        return $this->hasOne(Warehouse::class);
     }
 }

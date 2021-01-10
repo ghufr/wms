@@ -2,13 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Product;
-use App\Models\Supplier;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
-    // TODO: Control CRUD
     // Hisyam
     public function create(Request $request)
     {
@@ -28,26 +27,40 @@ class ProductController extends Controller
         return view('products', ['products' => $products]);
     }
 
-    public function edit (Request $request, $id)
+    public function input(Request $request)
     {
-        $products = Product::find($id);
-        return view("products", ['product_detail' => $products]);
+        $categories = Category::all();
+        return view("product_detail", ['categories' => $categories]);
     }
 
-    public function delete (Request $request, $id)
+    public function edit(Request $request, $id)
     {
-            Product::destroy($id);
-            return redirect(route('products'));
+        $product = Product::find($id);
+        $categories = Category::all();
+
+        if (!$product) {
+            return redirect('product')->withErrors(['Product tidak ditemukan']);
+        }
+        return view("product_detail", ['product' => $product, 'categories' => $categories]);
+    }
+
+    public function delete(Request $request, $id)
+    {
+        Product::destroy($id);
+        return redirect(route('products'));
     }
 
     public function update(Request $request, $id)
     {
-        $products = Product::find($id);
+        $product = Product::find($id);
 
-        if ($products) {
-            $products -> name = $request->name;
-            $products -> category = $request->category;
-            $products->save();
+        if ($product) {
+            $product->item_name =  $request->item_name;
+            $product->category =  $request->category;
+            $product->desc =  $request->desc;
+            $product->img   =  "";
+            $product->volume =  $request->volume;
+            $product->save();
         }
         return redirect(route('products'));
     }

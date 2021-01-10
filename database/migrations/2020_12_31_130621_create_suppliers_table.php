@@ -18,8 +18,8 @@ class CreateSuppliersTable extends Migration
             $table->timestamps();
             $table->string("name");
             $table->string("phone");
-            $table->string("address");
-
+            $table->string("address_street");
+            $table->string("address_city");
             // Cantika
         });
     }
