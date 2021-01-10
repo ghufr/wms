@@ -8,7 +8,7 @@
 <div>
 	{{-- Hisyam --}}
 	<nav class="navbar navbar-light shadow-sm d-flex justify-content-between bg-light position-fixed w-100">
-		<a href="{{ route('dash') }}" class="btn btn-light">Back</a>
+		<a href="{{ url()->previous() }}" class="btn btn-light">Back</a>
 		<h5 class="mb-0 font-weight-bold">WMS</h5>
 		<a class="btn btn-light invisible" href="#">Back</a>
 	</nav>
@@ -20,12 +20,12 @@
 					{{-- <button class="btn btn-sm btn-outline-secondary">Edit</button> --}}
 
 				</div>
-				<p class="mb-0 font-weight-bold">John Doe <span class="badge badge-secondary">Staff</span></p>
-				<p>john@acme.id</p>
+				<p class="mb-0 font-weight-bold">{{ $user->name }} <span class="badge badge-secondary">{{ ucfirst($user->role) }}</span></p>
+				<p>{{ $user->email }}</p>
 
 				<p class="text-secondary">
 					<small>
-						Registered at 20 Aug 2020
+						Registered at {{ $user->created_at }}
 					</small>
 					</p>
 

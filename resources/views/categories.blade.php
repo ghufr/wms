@@ -1,11 +1,17 @@
 @extends('layouts.app')
 @section('title', 'Categories')
+@section('username', Auth::user()->name)
 
 @component('components.topbar')
 @endcomponent
 @section('content')
-<div class="container pb-5" style="padding-top: 128px">
+<div class="container pb-5" style="padding: 86px 52px">
 	{{-- Fildzah --}}
+
+	@if(count($categories) > 0)
+	<div class="text-right mb-3">
+		<a href="{{ route('categories.input') }}" class="btn btn-primary">Add Category</a>
+	</div>
 	<table class="table table-bordered">
 		<thead class="thead-light">
 			<tr>
@@ -18,17 +24,26 @@
 		<tbody>
 			@foreach($categories as $category)
 			<tr>
-				<td>{{ 1 }}</td>
+				<td>{{ $category->id }}</td>
 				<td>{{ $category->name }}</td>
 				<td>{{ $category->description }}</td>
 				<td>
 					<a href="{{ route('categories.edit', ['id' => $category->id]) }}" class="btn btn-primary">Edit</a>
 					<a href="{{ route('categories.delete', ['id' => $category->id]) }}" class="btn btn-danger">Delete</a>
-
 				</td>
 			</tr>
 			@endforeach
 		</tbody>
 	</table>
+	@else
+	<div style="height: calc(100vh - 172px)" class="d-flex w-100 text-center justify-content-center align-items-center">
+		<div>
+			<h5>
+				Belum ada Category
+			</h5>
+			<a href="{{ route('categories.input') }}" class="btn btn-primary">Add Category</a>
+		</div>
+	</div>
+	@endif
 </div>
 @endsection

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,28 +18,34 @@ use Illuminate\Support\Facades\Route;
 // Authenticated Routes
 Route::middleware(['auth'])->group(function () {
     Route::prefix('transactions')->group(__DIR__ . '/transaction.php');
-    Route::prefix('warehouse')->group(__DIR__ . '/warehouse.php');
     Route::prefix('products')->group(__DIR__ . '/products.php');
     Route::prefix('suppliers')->group(__DIR__ . '/suppliers.php');
-    Route::prefix('dashboard')->group(__DIR__ . '/dashboard.php');
     Route::prefix('categories')->group(__DIR__ . '/categories.php');
+    Route::get('/profile', [UserController::class, 'profile'])->name("user.profile");
+});
+
+Route::middleware(['auth', 'manager'])->group(function () {
+    Route::prefix('warehouse')->group(__DIR__ . '/warehouse.php');
+    Route::prefix('dashboard')->group(__DIR__ . '/dashboard.php');
     Route::prefix('user')->group(__DIR__ . '/user.php');
 });
 
-// Public routes
-Route::get('/', function () {
-    return view('home');
-})->name("home");
 
-Route::get('/login', function () {
-    return view('login');
-})->name("login");
+// Guest routes
+Route::middleware(['auth'])->group(function () {
+    Route::get('/', function () {
+        return view('home');
+    })->name("home");
 
-Route::get('/register', function () {
-    return view('register');
-})->name("register");
+    Route::get('/login', function () {
+        return view('login');
+    })->name("login");
 
+    Route::get('/register', function () {
+        return view('register');
+    })->name("register");
 
-Route::post('/auth/register', [AuthController::class, 'register'])->name('auth.register');
-Route::post('/auth/login', [AuthController::class, 'login'])->name('auth.login');
-Route::get('/auth/logout', [AuthController::class, 'logout'])->name('auth.logout');
+    Route::post('/auth/register', [AuthController::class, 'register'])->name('auth.register');
+    Route::post('/auth/login', [AuthController::class, 'login'])->name('auth.login');
+    Route::get('/auth/logout', [AuthController::class, 'logout'])->name('auth.logout');
+});

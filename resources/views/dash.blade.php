@@ -1,5 +1,6 @@
 @extends('layouts.app')
 @section('title', 'Dashboard')
+@section('username', Auth::user()->name)
 
 @component('components.topbar')
 @endcomponent
@@ -20,15 +21,15 @@
 				<div class="col col-6 col-md-4">
 					<div class="card">
 						<div class="card-body">
-							<h3 class="font-weight-bold">23</h3>
-							<p class="mb-0">Items</p>
+							<h3 class="font-weight-bold">{{ $product_count }}</h3>
+							<p class="mb-0">Products</p>
 						</div>
 					</div>
 				</div>
 				<div class="col col-6 col-md-4">
 					<div class="card">
 						<div class="card-body">
-							<h3 class="font-weight-bold">5</h3>
+							<h3 class="font-weight-bold">{{ $warehouse_count }}</h3>
 							<p class="mb-0">Warehouses</p>
 						</div>
 					</div>
@@ -37,20 +38,20 @@
 			<div class="card">
 				<div class="card-body">
 					<div class="mb-3 d-flex align-items-center justify-content-between">
-						<h5>Products</h5>
-						<button class="btn btn-sm btn-primary">Add New Product</button>
+						<h5 class="font-weight-bold">Users</h5>
 					</div>
+					@if(count($users) > 0)
 					<table class="table table-bordered">
 						<thead class="thead-light">
 							<tr>
 								<th>
-									SKU
+									#
 								</th>
 								<th>
 									Name
 								</th>
 								<th>
-									Category
+									Email
 								</th>
 								<th>
 									Action
@@ -58,18 +59,22 @@
 							</tr>
 						</thead>
 						<tbody>
-							@for ($i = 0; $i < 10; $i++)
+							@foreach($users as $user)
 							<tr>
-								<td>00{{$i}}</td>
-								<td>Item 1</td>
-								<td>Material</td>
+								<td>{{ $user->id }}</td>
+								<td>{{ $user->name }} <span class="badge badge-{{ $user->role === 'manager' ? 'primary' : 'secondary' }}">{{ ucfirst($user->role) }}</span></td>
+								<td>{{ $user->email }}</td>
 								<td>
-									<button class="btn btn-sm btn-outline-success">Edit</button>
+									<button class="btn btn-sm btn-outline-primary">Edit</button>
+									<a href="{{ route('user.delete', ['id' => $user->id]) }}" class="btn btn-sm btn-outline-danger">Delete</a>
 								</td>
 							</tr>
-							@endfor
+							@endforeach
 						</tbody>
 					</table>
+					@else
+					<p>Belum ada user lain</p>
+					@endif
 				</div>
 			</div>
 		</div>

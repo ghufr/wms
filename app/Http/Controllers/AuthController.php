@@ -9,13 +9,13 @@ use App\Models\User;
 
 class AuthController extends Controller
 {
-    public function login(Request $request)
+    public function login(Request $req)
     {
-        $credentials = $request->only('email', 'password');
+        $credentials = $req->only('email', 'password');
 
         if (Auth::attempt($credentials)) {
-            $request->session()->regenerate();
-
+            $req->session()->regenerate();
+            $name = Auth::user()->name;
             return redirect(route('dash'));
         }
 
@@ -23,11 +23,18 @@ class AuthController extends Controller
             'email' => 'The provided credentials do not match our records.',
         ]);
     }
-    function register(Request $request)
+    function register(Request $req)
     {
-        $credentials = $request->only('name', 'email');
-        $credentials['password'] = Hash::make($request->password);
-        $credentials['role'] = 'staff';
+        $credentials = $req->only('name', 'email');
+        $credentials['password'] = Hash::make($req->password);
+        $count = User::all()->count();
+
+        if ($count > 0) {
+            $credentials['role'] = 'staff';
+        } else {
+            $credentials['role'] = 'manager';
+        }
+
 
         if (User::where('email', $credentials['email'])->exists()) {
 
@@ -37,7 +44,6 @@ class AuthController extends Controller
         }
 
         User::create($credentials);
-
 
         return redirect(route('login'));
     }

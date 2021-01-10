@@ -19,9 +19,9 @@ class CreateProductsTable extends Migration
             $table->string("sku");
             $table->string("item_name");
             $table->string("category");
-            $table->string("desc");
+            $table->string("desc")->nullable(true);
             $table->string("img");
-            $table->integer("volume");            
+            $table->integer("volume");
             // Hisyam
         });
     }

@@ -7,9 +7,9 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [CategoryController::class, 'list'])->name("categories");
 Route::get('/input', function () {
 	return view('category_detail');
-})->name("category.input");
-Route::post('/', [CategoryController::class, 'create'])->name('categories.create');
-
+})->name("categories.input");
 Route::get('/edit/{id}', [CategoryController::class, 'edit'])->name('categories.edit');
+
+Route::post('/', [CategoryController::class, 'create'])->name('categories.create');
 Route::get('/delete/{id}', [CategoryController::class, 'delete'])->name('categories.delete');
-Route::get('/update/{id}', [CategoryController::class, 'update'])->name('categories.update');
+Route::post('/update/{id}', [CategoryController::class, 'update'])->name('categories.update');

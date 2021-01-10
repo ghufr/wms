@@ -7,7 +7,6 @@ use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
-    // TODO: Control CRUD
     // Fildzah
     public function create(Request $req)
 
@@ -16,7 +15,7 @@ class CategoryController extends Controller
             'name' => $req->name,
             'description' => $req->description
         ]);
-        return view('categories');
+        return redirect(route('categories'));
     }
 
     public function list()
@@ -28,6 +27,9 @@ class CategoryController extends Controller
     public function edit(Request $req, $id)
     {
         $category = Category::find($id);
+        if (!$category) {
+            return redirect('suppliers')->withErrors(['Category tidak ditemukan']);
+        }
         return view("category_detail", ['category' => $category]);
     }
 
@@ -36,7 +38,7 @@ class CategoryController extends Controller
         Category::destroy($id);
         return redirect(route('categories'));
     }
-    public function update(Request $req, $id) 
+    public function update(Request $req, $id)
     {
         $category = Category::find($id);
 
