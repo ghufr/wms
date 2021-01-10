@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Warehouse;
-use App\Models\Product;
+use App\Models\Stock;
 use Illuminate\Support\Facades\DB;
 
 class WarehouseController extends Controller
@@ -50,7 +50,8 @@ class WarehouseController extends Controller
     {
         $warehouse = Warehouse::find($id->id);
         $users = User::find($warehouse->name);
-        $products = Product::all();
-        return view('warehouse_detail', ['warehouse' => $warehouse, 'users' => $users, 'products' => $products]);
+        $stocks = Stock::all();
+
+        return view('warehouse_detail', ['warehouse' => $warehouse, 'users' => $users, 'stocks' => $stocks]);
     }
 }

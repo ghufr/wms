@@ -6,7 +6,7 @@
 @section('content')
 <div class="container" style="padding-top: 128px">
 	{{-- Dede --}}
-	<div class="row">
+	<div class="row ml-3">
 		<!-- <h3>{{ null/*$warehouse->location*/ }}</h3> -->
 		
 		<div class="col">
@@ -38,6 +38,9 @@
 			</div>
 			<div class="card">
 				<div class="card-body">
+					<td>
+						<h3 class="font-weight-bold mb-2">Stock</h3>
+					</td>
 					<table class="table table-bordered">
 						<thead class="thead-light">
 							<tr>
@@ -45,10 +48,13 @@
 									No.
 								</th>
 								<th>
+									Name
+								</th>
+								<th>
 									Category
 								</th>
 								<th>
-									Stock
+									Quantity
 								</th>
 								<th>
 									Price
@@ -59,9 +65,10 @@
 							@for ($i = 0; $i < 10; $i++)
 							<tr>
 								<td>{{$i}}</td>
+								<td>Name</td>
 								<td>Material</td>
-								<td>[total jumlah barang di kategori]</td>
-								<td>[total jumlah harga di kategori]</td>
+								<td>[total jumlah barang di nama produk]</td>
+								<td>[total jumlah harga di nama produk]</td>
 							</tr>
 							@endfor
 						</tbody>

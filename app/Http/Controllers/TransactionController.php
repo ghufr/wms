@@ -7,6 +7,7 @@ use App\Models\Product;
 use App\Models\Supplier;
 use App\Models\Transaction;
 use App\Models\Warehouse;
+use App\Models\Stock;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -53,6 +54,28 @@ class TransactionController extends Controller
         if (!isset($transaction)) {
             return back()->withErrors(['Gagal membuat transaksi']);
         }
+        
+        
+        // Input Stock
+        if(null !== Stock::find($product->id)){
+            $stock = Stock::find($product->id);
+            
+            $stock->product_id = $product->id;
+            $stock->category = $product->category;
+            $stock->qty += $req->qty;
+            $stock->price = (($stock->price + $req->price) / 2);
+            
+        }else{
+            
+            // dd(Stock::find($product->id) == null);
+            Stock::create([
+                "product_id" => $product->id,
+                "category" => $product->category,
+                "qty" => $req->qty,
+                "price" => $req->price
+            ]);
+        }
+
         return redirect(route("transactions"));
     }
 
