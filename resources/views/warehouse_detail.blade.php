@@ -45,7 +45,7 @@
 						<thead class="thead-light">
 							<tr>
 								<th>
-									No.
+									Id
 								</th>
 								<th>
 									Name
@@ -54,23 +54,19 @@
 									Category
 								</th>
 								<th>
-									Quantity
-								</th>
-								<th>
-									Price
+									Value
 								</th>
 							</tr>
 						</thead>
 						<tbody>
-							@for ($i = 0; $i < 10; $i++)
+							@foreach ($stocks as $stock)
 							<tr>
-								<td>{{$i}}</td>
-								<td>Name</td>
-								<td>Material</td>
-								<td>[total jumlah barang di nama produk]</td>
-								<td>[total jumlah harga di nama produk]</td>
+								<td>{{ $stock->id }}</td>
+								<td>{{ $stock->product_id }}</td>
+								<td>{{ $stock->category }}</td>
+								<td>{{ $stock->qty * $stock->price }}</td>
 							</tr>
-							@endfor
+							@endforeach
 						</tbody>
 					</table>
 				</div>
