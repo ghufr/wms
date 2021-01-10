@@ -24,7 +24,7 @@
 				<div class="card-body">
 					<div class="mb-3 d-flex justify-content-between">
 						<h3>Inbound</h3>
-						<a href="{{ route('transactions.input', ['type' => 'inbound']) }}">
+						<a href="{{ route('transactions.inbound') }}">
 							<button class="btn btn-sm btn-primary">
 								In (+)
 							</button>
@@ -62,7 +62,7 @@
 				<div class="card-body">
 					<div class="mb-3 d-flex justify-content-between">
 						<h3>Outbound</h3>
-						<a href="{{ route('transactions.input', ['type' => 'outbound']) }}">
+						<a href="{{ route('transactions.outbound') }}">
 							<button class="btn btn-sm btn-danger">Out (-)</button>
 						</a>
 					</div>

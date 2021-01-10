@@ -4,7 +4,8 @@ use App\Http\Controllers\TransactionController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [TransactionController::class, "list"])->name("transactions");
-Route::get('/input', [TransactionController::class, "input"])->name("transactions.input");
+Route::get('/inbound', [TransactionController::class, "input"])->name("transactions.inbound");
+Route::get('/outbound', [TransactionController::class, "input"])->name("transactions.outbound");
 Route::get('/edit/{id}', [TransactionController::class, "edit"])->name('transactions.edit');
 
 // Create

@@ -38,7 +38,7 @@ class TransactionController extends Controller
             return back()->withErrors(['Warehouse tidak ditemukan']);
         }
 
-
+        
         // Input Transaction
         $transaction = Transaction::create([
             "product_id" => $product->id,
@@ -50,24 +50,20 @@ class TransactionController extends Controller
             "volume" => $product->volume * $req->qty,
             "type" => $req->query('type')
         ]);
-
+        
         if (!isset($transaction)) {
             return back()->withErrors(['Gagal membuat transaksi']);
         }
-        
-        
-        // Input Stock
-        if(null !== Stock::find($product->id)){
-            $stock = Stock::find($product->id);
             
-            $stock->product_id = $product->id;
-            $stock->category = $product->category;
+            
+        // Input Stock
+        $stock = Stock::where('product_id', $product->id)->first();
+        if(null !== $stock){
             $stock->qty += $req->qty;
             $stock->price = (($stock->price + $req->price) / 2);
+            $stock->save();
             
         }else{
-            
-            // dd(Stock::find($product->id) == null);
             Stock::create([
                 "product_id" => $product->id,
                 "category" => $product->category,
@@ -101,7 +97,7 @@ class TransactionController extends Controller
         return view('transactions', ['inbound' => $inbound, 'outbound' => $outbound]);
     }
 
-    public function input()
+    public function inbound()
     {
         $products = Product::all();
         $suppliers = Supplier::all();
@@ -113,6 +109,13 @@ class TransactionController extends Controller
             'warehouses' => $warehouses
         ];
 
-        return view("transaction_detail", $data);
+        return view("transaction_inbound", $data);
+    }
+
+    public function outbound()
+    {
+        $stock = Stock::all();
+        
+        return view("transaction_outbound", $data);
     }
 }
