@@ -17,7 +17,7 @@ class CreateCategoriesTable extends Migration
             $table->id();
             $table->timestamps();
             $table->string("name")->unique();
-            $table->string("description")->nullable(true);
+            $table->string("description")->nullable();
             // Fildzah
         });
     }

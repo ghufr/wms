@@ -65,7 +65,7 @@
 								<td>{{ $user->name }} <span class="badge badge-{{ $user->role === 'manager' ? 'primary' : 'secondary' }}">{{ ucfirst($user->role) }}</span></td>
 								<td>{{ $user->email }}</td>
 								<td>
-									<button class="btn btn-sm btn-outline-primary">Edit</button>
+									<button class="btn btn-sm btn-outline-primary">Change Role</button>
 									<a href="{{ route('user.delete', ['id' => $user->id]) }}" class="btn btn-sm btn-outline-danger">Delete</a>
 								</td>
 							</tr>
