@@ -8,6 +8,7 @@ use App\Models\Supplier;
 use App\Models\Transaction;
 use App\Models\Warehouse;
 use App\Models\Stock;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -65,6 +66,7 @@ class TransactionController extends Controller
             
         }else{
             Stock::create([
+                "warehouse_id" => $warehouse->id,
                 "product_id" => $product->id,
                 "category" => $product->category,
                 "qty" => $req->qty,
@@ -112,10 +114,29 @@ class TransactionController extends Controller
         return view("transaction_inbound", $data);
     }
 
-    public function outbound()
+    public function outbound(Request $req)
     {
-        $stock = Stock::all();
+        $userId = Auth::user()->id;
+        $user = User::find($userId);
         
-        return view("transaction_outbound", $data);
+        $warehouses = [];
+        if ($user->role == 'manager') {
+            $warehouses = Warehouse::all();
+        } else {
+            $warehouses = $user->warehouse()->get();
+        }
+
+        $choosen = $req->query('choosen');
+        $stocks = [];
+        if($choosen){
+            $stocks = Stock::where('warehouse_id', $choosen);
+        }else{
+            $stocks = Stock::all();
+        }
+        //user bisa milih dari berbagai product_id
+        //user masukin qty aja
+        //price udah otomatis terlihat
+
+        return view("transaction_outbound", ['stocks' => $stocks, 'warehouses' => $warehouses]);
     }
 }
