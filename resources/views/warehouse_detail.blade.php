@@ -1,14 +1,13 @@
 @extends('layouts.app')
 @section('title', 'Warehouse')
+@section('username', Auth::user()->name)
 
 @component('components.topbar')
 @endcomponent
 @section('content')
-<div class="container" style="padding-top: 128px">
+<div class="container-liquid" style="padding: 86px 52px">
 	{{-- Dede --}}
-	<div class="row ml-3">
-		<!-- <h3>{{ null/*$warehouse->location*/ }}</h3> -->
-		
+	<div class="row">
 		<div class="col">
 			<h3>{{ $warehouse->name }} | {{ $warehouse->location }}</h3>
 			<hr>
@@ -77,10 +76,15 @@
 				<div class="card-body">
 					<h5>Staff Assigned</h5>
 					<ul class="list-group list-group-flush">
-						<li class="list-group-item">Widodo</li>
-						<li class="list-group-item">Maaplur Amin</li>
-						<li class="list-group-item">Awal Bowo</li>
-						<li class="list-group-item">Sedia Remi</li>
+						@foreach($staff as $st)
+						<li class="list-group-item">
+							{{ $st->name }}
+							<a href="{{ route('warehouse.deleteStaff', ['id' => $warehouse->id, 'userId' => $st->id]) }}" class="float-right badge-pill badge-danger">X</a>
+						</li>
+						@endforeach
+						<li class="list-group-item text-right">
+							<button data-toggle="modal" data-target="#addStaffModal" class="btn btn-sm btn-primary">Add new Staff</button>
+						</li>
 					</ul>
 				</div>
 			</div>
@@ -91,6 +95,32 @@
 	</div>
 </div>
 
+
+{{-- Add Staff Modal --}}
+<div class="modal fade" id="addStaffModal" tabindex="-1" aria-labelledby="addStaffModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content">
+			<div class="modal-header">
+					<h5 class="modal-title">Add Staff</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+					</button>
+			</div>
+			<div class="modal-body">
+					<form action="{{ route('warehouse.addStaff', ['id' => $warehouse->id]) }}" method="post" enctype="multipart/form-data">
+						@csrf
+						<select name="user" id="user">
+							@foreach($users as $user)
+								<option value="{{ $user->id }}">{{ $user->name }}</option>
+							@endforeach
+						</select>
+						<div class="text-right">
+							<button type="submit" class="btn btn-primary">Submit</button>
+						</div>
+					</form>
+			</div>
+	</div>
+</div>
 
 <!-- Edit Modal -->
 <div class="modal fade" id="InsertModal" tabindex="-1" aria-labelledby="InsertModalLabel" aria-hidden="true">
@@ -123,7 +153,7 @@
                         <input type="text" class="form-control" id="volume" name="volume" value="">
                     </div>
                 </div>
-                
+
                 <div class="form-group">
                     <div class="btn-toolbar float-right" role="toolbar" aria-label="Toolbar with button groups">
                         <div class="btn-group mr-2" role="group" aria-label="First group">
@@ -132,9 +162,9 @@
                             </button>
                         </div>
                         <div class="btn-group mr-2" role="group" aria-label="Second group">
-                            <button type="submit" class="btn btn-primary float-md-right">
-                                <a style="color:white">Edit Warehouse</a>
-                            </button>
+                            <a href="" type="submit" class="btn btn-primary">
+                                Edit Warehouse
+														</a>
                         </div>
                     </div>
                 </div>

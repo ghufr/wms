@@ -34,4 +34,9 @@ class User extends Authenticatable
         'password',
         'remember_token'
     ];
+
+    public function warehouse()
+    {
+        return $this->belongsToMany(Warehouse::class);
+    }
 }
