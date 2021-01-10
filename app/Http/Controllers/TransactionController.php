@@ -85,6 +85,14 @@ class TransactionController extends Controller
         } elseif ($stock and $in_type == 'outbound') {
             $stock->qty -= $req->qty;
             $stock->save();
+        }else{
+            Stock::create([
+                "warehouse_id" => $warehouse->id,
+                "product_id" => $product->id,
+                "category" => $product->category,
+                "qty" => $req->qty,
+                "price" => $req->price
+            ]);
         }
         return redirect(route("transactions"));
     }
@@ -134,10 +142,29 @@ class TransactionController extends Controller
         return view("transaction_inbound", $data);
     }
 
-    public function outbound()
+    public function outbound(Request $req)
     {
-        $stock = Stock::all();
+        $userId = Auth::user()->id;
+        $user = User::find($userId);
+        
+        $warehouses = [];
+        if ($user->role == 'manager') {
+            $warehouses = Warehouse::all();
+        } else {
+            $warehouses = $user->warehouse()->get();
+        }
 
-        return view("transaction_outbound");
+        $choosen = $req->query('choosen');
+        $stocks = [];
+        if($choosen){
+            $stocks = Stock::where('warehouse_id', $choosen);
+        }else{
+            $stocks = Stock::all();
+        }
+        //user bisa milih dari berbagai product_id
+        //user masukin qty aja
+        //price udah otomatis terlihat
+
+        return view("transaction_outbound", ['stocks' => $stocks, 'warehouses' => $warehouses]);
     }
 }

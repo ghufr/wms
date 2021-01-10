@@ -13,67 +13,91 @@
 
 	@endforeach
 	<div class="row">
-		<div class="col-8">
-			<div class="card">
-				<div class="card-body">
-					{{-- Ghufron --}}
-					<form action="{{route('transactions.create') . '?type=' . Request()->type }}" method="post">
-						@csrf
-						{{-- <div class="form-group">
-							<label for="product">Product</label>
-							<input class="form-control" type="text" name="product" id="product" placeholder="Choose Product...">
-						</div> --}}
+		<div class="col">
+			{{-- Ghufron --}}
+			<form action="{{route('transactions.create') . '?type=' . Request()->type }}" method="post">
+				@csrf
+				{{-- <div class="form-group">
+					<label for="warehouse">Warehouse</label>
+					<input class="form-control" type="text" name="warehouse" id="warehouse" placeholder="Choose Product...">
+				</div> --}}
 
-						<div class="row">
-							<div class="col">
-								<div class="form-group">
-									<label for="product">Product</label>
-									<select class="form-control" name="product" id="product">
-										@foreach ($products as $product)
-												<option value="{{ $product->id }}">{{ $product->item_name }}</option>
-										@endforeach
-									</select>
-								</div>
-							</div>
-							<div class="col">
-								<div class="form-group">
-									<label for="supplier">Supplier</label>
-									<select class="form-control" name="supplier" id="supplier">
-										@foreach ($suppliers as $supplier)
-											<option value="{{ $supplier->id }}">{{ $supplier->name . "-" . $supplier->address_city }}</option>
-										@endforeach
-									</select>
-								</div>
-							</div>
-						</div>
-
+				<div class="row">
+					<div class="col">
 						<div class="form-group">
 							<label for="warehouse">Warehouse</label>
-							<select class="form-control" name="warehouse" id="warehouse">
+							<select class="form-control" name="warehouse" id="warehouse" onchange="location = this.value;">
+								<option value="">Choose Warehouse...</option>
 								@foreach ($warehouses as $warehouse)
-									<option value="{{ $warehouse->id }}">{{ $warehouse->name . "-" . $warehouse->location }}</option>
+										<option value="{{ route('transactions.outbound').'?choosen='.$warehouse->id}}">{{ $warehouse->name }}</option>
 								@endforeach
 							</select>
 						</div>
+					</div>
+				</div>
 
-						<div class="form-row">
-							<div class="col">
+			</form>
+			<div class="card mt-4">
+				<div class="card-body">
+					<td>
+						<h3 class="font-weight-bold mb-2">Stock</h3>
+					</td>
+					<table class="table table-bordered text-center">
+						<thead class="thead-light">
+							<tr>
+								<th>
+									Id
+								</th>
+								<th>
+									Name
+								</th>
+								<th>
+									Category
+								</th>
+								<th>
+									Price
+								</th>
+								<th>
+								</th>
+								<th>
+									Quantity
+								</th>
+								<th>
+									Outbound Quantity
+								</th>
+								<th>
+									Action
+								</th>
+							</tr>
+						</thead>
+						<tbody>
+							@foreach ($stocks as $stock)
+							<tr>
+								<td>{{ $stock->id }}</td>
+								<td>{{ $stock->product_id }}</td>
+								<td>{{ $stock->category }}</td>
+								<td>{{ $stock->price }}</td>
+								<td></td>
+								<td>{{ $stock->qty }}</td>
+								<td>
+								
 								<div class="form-group">
-									<label for="qty">Quantity</label>
 									<input class="form-control" type="number" name="qty" id="qty" min="0">
 								</div>
-							</div>
-							<div class="col">
-								<div class="form-group">
-									<label for="price">Price</label>
-									<input class="form-control" type="number" name="price" id="price" min="0">
+								
+
+								</td>
+								<td>
+								
+								<div>
+									<button type="submit" class="btn btn-primary">Checkout</button>
 								</div>
-							</div>
-						</div>
-						<div class="text-right">
-							<button type="submit" class="btn btn-primary">Submit</button>
-						</div>
-					</form>
+								
+								</td>
+							</tr>
+							@endforeach
+						</tbody>
+					</table>
 				</div>
 			</div>
 		</div>
