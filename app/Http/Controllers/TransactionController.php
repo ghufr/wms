@@ -17,6 +17,54 @@ class TransactionController extends Controller
 {
     // Ghufron
 
+    public function sub(Request $req)
+    {
+
+        $user = Auth::user();
+        $stock_id = $req->id;
+
+        $stock = Stock::find($stock_id);
+        $product = Product::find($stock->product_id);
+        $warehouse = Warehouse::find($stock->warehouse_id);
+
+
+        $transaction = Transaction::create([
+            "user_id" => $user->id,
+            "warehouse_id" => $warehouse->id,
+            "warehouse_name" => $warehouse->name,
+            "warehouse_location" => $warehouse->location,
+
+            "supplier_id" => 0,
+            "supplier_name" => '',
+            "supplier_address_city" => '',
+
+            "product_id" => $product->id,
+            "product_name" => $product->item_name,
+            "product_volume" => $product->volume,
+            "product_category" => $product->category,
+            "price" => 0,
+            "qty" => $req->qty,
+            "total" => 0,
+            "volume" => $product->volume * $req->qty,
+            "type" => 'outbound'
+        ]);
+        if (!isset($transaction)) {
+            return back()->withErrors(['fail' => 'Gagal membuat transaksi']);
+        }
+
+        if ($req->qty > $stock->qty) {
+            return back()->withErrors(['qty' => 'Qty melebihi stock']);
+        }
+        $stock->qty -= $req->qty;
+        if ($stock->qty == 0) {
+            $stock->price = 0;
+        }
+
+        $stock->save();
+
+        return back();
+    }
+
     public function create(Request $req)
     {
         $user = Auth::user();
@@ -40,7 +88,6 @@ class TransactionController extends Controller
             return back()->withErrors(['Warehouse tidak ditemukan']);
         }
 
-        $in_type = $req->query('type');
         // Input Transaction
         $transaction = Transaction::create([
             "user_id" => $user->id,
@@ -60,15 +107,17 @@ class TransactionController extends Controller
             "qty" => $req->qty,
             "total" => $req->price * $req->qty,
             "volume" => $product->volume * $req->qty,
-            "type" => $in_type
+            "type" => 'inbound'
         ]);
 
         if (!isset($transaction)) {
-            return back()->withErrors(['Gagal membuat transaksi']);
+            return back()->withErrors(['fail' => 'Gagal membuat transaksi']);
         }
 
         // Input Stock
-        $stock = Stock::where('product_id', $product->id)->first();
+        $stock = Stock::where('product_id', $product->id)
+            ->where('warehouse_id', $warehouse->id)
+            ->first();
         if ($req->query('type') == 'inbound') {
             if (null !== $stock) {
                 $stock->qty += $req->qty;
@@ -76,23 +125,13 @@ class TransactionController extends Controller
                 $stock->save();
             } else {
                 Stock::create([
+                    "warehouse_id" => $warehouse->id,
                     "product_id" => $product->id,
                     "category" => $product->category,
                     "qty" => $req->qty,
                     "price" => $req->price
                 ]);
             }
-        } elseif ($stock and $in_type == 'outbound') {
-            $stock->qty -= $req->qty;
-            $stock->save();
-        }else{
-            Stock::create([
-                "warehouse_id" => $warehouse->id,
-                "product_id" => $product->id,
-                "category" => $product->category,
-                "qty" => $req->qty,
-                "price" => $req->price
-            ]);
         }
         return redirect(route("transactions"));
     }
@@ -146,7 +185,7 @@ class TransactionController extends Controller
     {
         $userId = Auth::user()->id;
         $user = User::find($userId);
-        
+
         $warehouses = [];
         if ($user->role == 'manager') {
             $warehouses = Warehouse::all();
@@ -156,15 +195,24 @@ class TransactionController extends Controller
 
         $choosen = $req->query('choosen');
         $stocks = [];
-        if($choosen){
-            $stocks = Stock::where('warehouse_id', $choosen);
-        }else{
-            $stocks = Stock::all();
+        if ($choosen) {
+            $stocks = Stock::where('warehouse_id', $choosen)->where('qty', '>', 0)->get();
+        } else {
+            $stocks = Stock::where('qty', '>', 0)->get();
         }
         //user bisa milih dari berbagai product_id
         //user masukin qty aja
         //price udah otomatis terlihat
 
         return view("transaction_outbound", ['stocks' => $stocks, 'warehouses' => $warehouses]);
+    }
+
+    public function detail(Request $req, $id)
+    {
+        $transaction = Transaction::find($id);
+        if (!$transaction) {
+            return back()->withErrors(['notfound', 'Transaction not found']);
+        }
+        return view('transaction_detail', ['transaction' => $transaction]);
     }
 }

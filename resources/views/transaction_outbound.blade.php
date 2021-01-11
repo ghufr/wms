@@ -15,91 +15,75 @@
 	<div class="row">
 		<div class="col">
 			{{-- Ghufron --}}
-			<form action="{{route('transactions.create') . '?type=' . Request()->type }}" method="post">
-				@csrf
-				{{-- <div class="form-group">
-					<label for="warehouse">Warehouse</label>
-					<input class="form-control" type="text" name="warehouse" id="warehouse" placeholder="Choose Product...">
-				</div> --}}
 
-				<div class="row">
-					<div class="col">
-						<div class="form-group">
-							<label for="warehouse">Warehouse</label>
-							<select class="form-control" name="warehouse" id="warehouse" onchange="location = this.value;">
-								<option value="">Choose Warehouse...</option>
-								@foreach ($warehouses as $warehouse)
-										<option value="{{ route('transactions.outbound').'?choosen='.$warehouse->id}}">{{ $warehouse->name }}</option>
-								@endforeach
-							</select>
-						</div>
-					</div>
-				</div>
 
-			</form>
-			<div class="card mt-4">
-				<div class="card-body">
-					<td>
-						<h3 class="font-weight-bold mb-2">Stock</h3>
-					</td>
-					<table class="table table-bordered text-center">
-						<thead class="thead-light">
-							<tr>
-								<th>
-									Id
-								</th>
-								<th>
-									Name
-								</th>
-								<th>
-									Category
-								</th>
-								<th>
-									Price
-								</th>
-								<th>
-								</th>
-								<th>
-									Quantity
-								</th>
-								<th>
-									Outbound Quantity
-								</th>
-								<th>
-									Action
-								</th>
-							</tr>
-						</thead>
-						<tbody>
-							@foreach ($stocks as $stock)
-							<tr>
-								<td>{{ $stock->id }}</td>
-								<td>{{ $stock->product_id }}</td>
-								<td>{{ $stock->category }}</td>
-								<td>{{ $stock->price }}</td>
-								<td></td>
-								<td>{{ $stock->qty }}</td>
-								<td>
-								
-								<div class="form-group">
-									<input class="form-control" type="number" name="qty" id="qty" min="0">
-								</div>
-								
 
-								</td>
-								<td>
-								
-								<div>
-									<button type="submit" class="btn btn-primary">Checkout</button>
-								</div>
-								
-								</td>
-							</tr>
-							@endforeach
-						</tbody>
-					</table>
-				</div>
-			</div>
+
+			<h3 class="font-weight-bold mb-3">Stock</h3>
+			<select style="max-width: 400px;" class="form-control mb-3" name="warehouse" id="warehouse" value="{{ '?choosen='. Request()->choosen }}" onchange="location = '{{ route('transactions.outbound') }}?choosen=' + this.value;">
+				<option value="0">Choose Warehouse...</option>
+				@foreach ($warehouses as $warehouse)
+						<option value="{{ $warehouse->id }}" {{ $warehouse->id == Request()->choosen ? 'selected' : '' }}>{{ $warehouse->name }}</option>
+				@endforeach
+			</select>
+			@if(count($stocks))
+			<table class="table table-bordered">
+				<thead class="thead-light">
+					<tr>
+						<th>
+							Product
+						</th>
+						<th>
+							Warehouse
+						</th>
+						<th>
+							Price
+						</th>
+
+						<th>
+							Quantity
+						</th>
+						<th>
+							Outbound Quantity
+						</th>
+						<th>
+							Action
+						</th>
+					</tr>
+				</thead>
+				<tbody>
+					@foreach ($stocks as $stock)
+					<form action="{{ route('transactions.sub') }}" method="POST">
+						@csrf
+						<input type="hidden" name="id" value="{{$stock->id}}">
+						{{-- <input type="hidden" name="qty" value="{{$stock->qty}}"> --}}
+						<tr>
+							<td>{{ $stock->product->item_name }}</td>
+							<td>{{ $stock->warehouse->name }} | {{ $stock->warehouse->location }} </td>
+							<td>{{ number_format($stock->price, 0) }}</td>
+							<td>{{ $stock->qty }}</td>
+							<td>
+
+							<div class="input-group input-group-sm">
+								<input class="form-control " type="number" name="qty" id="qty" min="1" required max="{{ $stock->qty }}">
+							</div>
+
+
+							</td>
+							<td>
+
+								<button type="submit" class="btn btn-sm btn-danger">Process</button>
+
+							</td>
+						</tr>
+					</form>
+					@endforeach
+				</tbody>
+			</table>
+			@else
+			<p>No Stock available</p>
+			<a href="{{ route('transactions.inbound') }}" class="btn btn-primary">Add Stock</a>
+			@endif
 		</div>
 	</div>
 </div>

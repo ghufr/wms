@@ -13,9 +13,14 @@ class AuthController extends Controller
     {
         $credentials = $req->only('email', 'password');
 
+
         if (Auth::attempt($credentials)) {
+            if (!Auth::user()->verified) {
+                return back()->withErrors([
+                    'verification' => 'Please wait until your verification process accepted',
+                ]);
+            }
             $req->session()->regenerate();
-            $name = Auth::user()->name;
             return redirect(route('dash'));
         }
 
@@ -27,12 +32,14 @@ class AuthController extends Controller
     {
         $credentials = $req->only('name', 'email');
         $credentials['password'] = Hash::make($req->password);
-        $count = User::all()->count();
+        $usr = User::find(1);
 
-        if ($count > 0) {
+        if ($usr) {
             $credentials['role'] = 'staff';
+            $credentials['verified'] = false;
         } else {
             $credentials['role'] = 'manager';
+            $credentials['verified'] = true;
         }
 
 

@@ -28,4 +28,20 @@ class UserController extends Controller
     function update()
     {
     }
+
+    function accept(Request $req, $id)
+    {
+        $user = User::find($id);
+        if (!$user) {
+            return back()->withErrors(['user' => 'User not found']);
+        }
+        $user->verified = true;
+        $user->save();
+        return back();
+    }
+    function decline(Request $req, $id)
+    {
+        User::where('id', $id)->where('verified', false)->destroy();
+        return back();
+    }
 }

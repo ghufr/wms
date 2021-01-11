@@ -20,6 +20,7 @@ class CreateUsersTable extends Migration
             $table->string('role');
             $table->string('password');
             $table->dateTime('last_login')->nullable(true);
+            $table->boolean('verified')->default(false);
             $table->rememberToken();
             $table->timestamps();
         });

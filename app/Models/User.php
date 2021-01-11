@@ -22,7 +22,8 @@ class User extends Authenticatable
         'password',
         'warehouse_id',
         'role',
-        'last_login'
+        'last_login',
+        'verified'
     ];
 
     /**

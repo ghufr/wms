@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\Warehouse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
 {
@@ -24,12 +25,20 @@ class DashboardController extends Controller
         $product_count = Product::all()->count();
 
         // Get All Users
-        $users = User::where('email', '!=', Auth::user()->email)->get(['id', 'name', 'email', 'role']);
+        $users = User::where('email', '!=', Auth::user()->email)->where('verified', true)->get(['id', 'name', 'email', 'role']);
+        $regists = User::where('verified', false)->get(['id', 'name']);
+        $stocks = DB::table('stocks')->get();
+        $sum = 0;
+        foreach ($stocks as $stock) {
+            $sum += $stock->qty * $stock->price;
+        };
 
         $data = [
             'product_count' => $product_count,
             'warehouse_count' => $warehouse_count,
-            'users' => $users
+            'users' => $users,
+            'value' => $sum,
+            'regists' => $regists
         ];
 
         return view('dash', $data);

@@ -10,7 +10,6 @@ use Illuminate\Support\Facades\DB;
 
 class WarehouseController extends Controller
 {
-    // TODO: Control CRUD
     // Dede
 
     public function create(Request $req)
@@ -66,9 +65,16 @@ class WarehouseController extends Controller
 
         $users = User::whereNotIn('id', $user_ids)->where('role', 'staff')->get(['id', 'name']);
 
-        $stocks = Stock::all();
+        $stocks = Stock::where('warehouse_id', $warehouse->id)->get();
 
-        return view('warehouse_detail', ['warehouse' => $warehouse, 'users' => $users, 'staff' => $staff, 'stocks' => $stocks]);
+        $used = 0;
+
+        foreach ($stocks as $stock) {
+            $used += $stock->product->volume;
+        }
+
+        $left = $warehouse->volume - $used;
+        return view('warehouse_detail', ['warehouse' => $warehouse, 'users' => $users, 'staff' => $staff, 'stocks' => $stocks, 'used' => $used, 'left' => $left]);
     }
 
     public function addStaff(Request $req, $id)
