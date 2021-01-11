@@ -20,7 +20,7 @@
 					{{-- <button class="btn btn-sm btn-outline-secondary">Edit</button> --}}
 
 				</div>
-				<p class="mb-0 font-weight-bold">{{ $user->name }} <span class="badge badge-secondary">{{ ucfirst($user->role) }}</span></p>
+				<p class="mb-0 font-weight-bold">{{ $user->name }} <span class="badge badge-{{ $user->role == 'manager' ? 'primary' : 'secondary' }}">{{ ucfirst($user->role) }}</span></p>
 				<p>{{ $user->email }}</p>
 
 				<p class="text-secondary">

@@ -49,11 +49,11 @@ class TransactionController extends Controller
             "type" => 'outbound'
         ]);
         if (!isset($transaction)) {
-            return back()->withErrors(['Gagal membuat transaksi']);
+            return back()->withErrors(['fail' => 'Gagal membuat transaksi']);
         }
 
         if ($req->qty > $stock->qty) {
-            return back()->withErrors(['Qty melebihi stock']);
+            return back()->withErrors(['qty' => 'Qty melebihi stock']);
         }
         $stock->qty -= $req->qty;
         if ($stock->qty == 0) {
@@ -62,7 +62,7 @@ class TransactionController extends Controller
 
         $stock->save();
 
-        return redirect(route('transactions'));
+        return back();
     }
 
     public function create(Request $req)
@@ -111,7 +111,7 @@ class TransactionController extends Controller
         ]);
 
         if (!isset($transaction)) {
-            return back()->withErrors(['Gagal membuat transaksi']);
+            return back()->withErrors(['fail' => 'Gagal membuat transaksi']);
         }
 
         // Input Stock
@@ -205,5 +205,14 @@ class TransactionController extends Controller
         //price udah otomatis terlihat
 
         return view("transaction_outbound", ['stocks' => $stocks, 'warehouses' => $warehouses]);
+    }
+
+    public function detail(Request $req, $id)
+    {
+        $transaction = Transaction::find($id);
+        if (!$transaction) {
+            return back()->withErrors(['notfound', 'Transaction not found']);
+        }
+        return view('transaction_detail', ['transaction' => $transaction]);
     }
 }

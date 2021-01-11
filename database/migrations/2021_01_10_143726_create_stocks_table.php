@@ -18,10 +18,11 @@ class CreateStocksTable extends Migration
             $table->timestamps();
             $table->foreignId("warehouse_id");
             $table->foreignId("product_id");
+            $table->string("product_name");
             $table->string("category");
             $table->integer("qty");
+            $table->integer("volume");
             $table->integer("price");
-
         });
     }
 

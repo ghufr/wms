@@ -25,8 +25,8 @@ class DashboardController extends Controller
         $product_count = Product::all()->count();
 
         // Get All Users
-        $users = User::where('email', '!=', Auth::user()->email)->get(['id', 'name', 'email', 'role']);
-
+        $users = User::where('email', '!=', Auth::user()->email)->where('verified', true)->get(['id', 'name', 'email', 'role']);
+        $regists = User::where('verified', false)->get(['id', 'name']);
         $stocks = DB::table('stocks')->get();
         $sum = 0;
         foreach ($stocks as $stock) {
@@ -37,7 +37,8 @@ class DashboardController extends Controller
             'product_count' => $product_count,
             'warehouse_count' => $warehouse_count,
             'users' => $users,
-            'value' => $sum
+            'value' => $sum,
+            'regists' => $regists
         ];
 
         return view('dash', $data);

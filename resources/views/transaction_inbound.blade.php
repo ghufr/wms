@@ -12,7 +12,7 @@
 	<div class="alert alert-danger mb-3">{{ $error }}</div>
 
 	@endforeach
-	<div class="row">
+	<div class="row d-flex justify-content-center">
 		<div class="col-8">
 			<div class="card">
 				<div class="card-body">
@@ -24,24 +24,27 @@
 							<input class="form-control" type="text" name="product" id="product" placeholder="Choose Product...">
 						</div> --}}
 
-						<div class="row">
+						<div class="form-row">
 							<div class="col">
 								<div class="form-group">
 									<label for="product">Product</label>
-									<select class="form-control" name="product" id="product">
+									<select class="form-control" name="product" id="product" onchange=" this.value == '0' ? location = '{{ route('products.input') }}' : '' ">
 										@foreach ($products as $product)
-												<option value="{{ $product->id }}">{{ $product->item_name }}</option>
+											<option value="{{ $product->id }}">{{ $product->item_name }}</option>
 										@endforeach
+										<option value="0">+ New Product</option>
 									</select>
 								</div>
 							</div>
 							<div class="col">
 								<div class="form-group">
 									<label for="supplier">Supplier</label>
-									<select class="form-control" name="supplier" id="supplier">
+									<select class="form-control" name="supplier" id="supplier" onchange=" this.value == '0' ? location = '{{ route('suppliers.input') }}' : '' ">
 										@foreach ($suppliers as $supplier)
 											<option value="{{ $supplier->id }}">{{ $supplier->name . "-" . $supplier->address_city }}</option>
+											<option value="0">+ New Supplier</option>
 										@endforeach
+
 									</select>
 								</div>
 							</div>

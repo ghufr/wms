@@ -9,7 +9,7 @@ class Product extends Model
 {
     use HasFactory;
     // Hisyam
-    
+
     protected $fillable = [
         "sku",
         "item_name",
@@ -22,5 +22,10 @@ class Product extends Model
     public function category()
     {
         return $this->hasOne(category::class);
+    }
+
+    public function product()
+    {
+        return $this->belongsToMany(Stock::class);
     }
 }
